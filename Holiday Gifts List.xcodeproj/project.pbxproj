@@ -7,19 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1B08D6672926EB9D00B7038A /* Holiday_Gifts_ListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6662926EB9D00B7038A /* Holiday_Gifts_ListApp.swift */; };
-		1B08D6692926EB9D00B7038A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6682926EB9D00B7038A /* ContentView.swift */; };
+		1B08D6672926EB9D00B7038A /* HolidayGiftsListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6662926EB9D00B7038A /* HolidayGiftsListApp.swift */; };
+		1B08D6692926EB9D00B7038A /* GiftsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6682926EB9D00B7038A /* GiftsList.swift */; };
 		1B08D66B2926EB9F00B7038A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B08D66A2926EB9F00B7038A /* Assets.xcassets */; };
 		1B08D66F2926EB9F00B7038A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B08D66E2926EB9F00B7038A /* Preview Assets.xcassets */; };
+		1B08D6762926EBCF00B7038A /* Gift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6752926EBCF00B7038A /* Gift.swift */; };
+		1B08D6782926EC6800B7038A /* GiftsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6772926EC6800B7038A /* GiftsData.swift */; };
+		1B08D67A2926ED0900B7038A /* Recipient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6792926ED0900B7038A /* Recipient.swift */; };
+		1B08D67C2927112C00B7038A /* CloudController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D67B2927112C00B7038A /* CloudController.swift */; };
+		1B08D67E2927118C00B7038A /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D67D2927118C00B7038A /* UserDefaults.swift */; };
+		1B08D6802927140300B7038A /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D67F2927140300B7038A /* RootView.swift */; };
+		1B08D682292714D000B7038A /* GiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D681292714D000B7038A /* GiftView.swift */; };
+		1B08D6842927299500B7038A /* GiftRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6832927299500B7038A /* GiftRow.swift */; };
+		1B08D686292737A000B7038A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D685292737A000B7038A /* SettingsView.swift */; };
+		1B6896CE2932B4B8004E6730 /* BiometricAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6896CD2932B4B8004E6730 /* BiometricAuthentication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1B08D6632926EB9D00B7038A /* Holiday Gifts List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Holiday Gifts List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1B08D6662926EB9D00B7038A /* Holiday_Gifts_ListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holiday_Gifts_ListApp.swift; sourceTree = "<group>"; };
-		1B08D6682926EB9D00B7038A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1B08D6662926EB9D00B7038A /* HolidayGiftsListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayGiftsListApp.swift; sourceTree = "<group>"; };
+		1B08D6682926EB9D00B7038A /* GiftsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftsList.swift; sourceTree = "<group>"; };
 		1B08D66A2926EB9F00B7038A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B08D66C2926EB9F00B7038A /* Holiday_Gifts_List.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Holiday_Gifts_List.entitlements; sourceTree = "<group>"; };
 		1B08D66E2926EB9F00B7038A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1B08D6752926EBCF00B7038A /* Gift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gift.swift; sourceTree = "<group>"; };
+		1B08D6772926EC6800B7038A /* GiftsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftsData.swift; sourceTree = "<group>"; };
+		1B08D6792926ED0900B7038A /* Recipient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipient.swift; sourceTree = "<group>"; };
+		1B08D67B2927112C00B7038A /* CloudController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudController.swift; sourceTree = "<group>"; };
+		1B08D67D2927118C00B7038A /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		1B08D67F2927140300B7038A /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		1B08D681292714D000B7038A /* GiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftView.swift; sourceTree = "<group>"; };
+		1B08D6832927299500B7038A /* GiftRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRow.swift; sourceTree = "<group>"; };
+		1B08D685292737A000B7038A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1B6896CD2932B4B8004E6730 /* BiometricAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthentication.swift; sourceTree = "<group>"; };
+		1B7CBBE02931B08E0020F5E4 /* Holiday-Gifts-List-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Holiday-Gifts-List-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +73,19 @@
 		1B08D6652926EB9D00B7038A /* Holiday Gifts List */ = {
 			isa = PBXGroup;
 			children = (
-				1B08D6662926EB9D00B7038A /* Holiday_Gifts_ListApp.swift */,
-				1B08D6682926EB9D00B7038A /* ContentView.swift */,
+				1B7CBBE02931B08E0020F5E4 /* Holiday-Gifts-List-Info.plist */,
+				1B08D6662926EB9D00B7038A /* HolidayGiftsListApp.swift */,
+				1B08D67F2927140300B7038A /* RootView.swift */,
+				1B08D6682926EB9D00B7038A /* GiftsList.swift */,
+				1B08D6832927299500B7038A /* GiftRow.swift */,
+				1B08D681292714D000B7038A /* GiftView.swift */,
+				1B08D685292737A000B7038A /* SettingsView.swift */,
+				1B08D67B2927112C00B7038A /* CloudController.swift */,
+				1B6896CD2932B4B8004E6730 /* BiometricAuthentication.swift */,
+				1B08D6772926EC6800B7038A /* GiftsData.swift */,
+				1B08D67D2927118C00B7038A /* UserDefaults.swift */,
+				1B08D6752926EBCF00B7038A /* Gift.swift */,
+				1B08D6792926ED0900B7038A /* Recipient.swift */,
 				1B08D66A2926EB9F00B7038A /* Assets.xcassets */,
 				1B08D66C2926EB9F00B7038A /* Holiday_Gifts_List.entitlements */,
 				1B08D66D2926EB9F00B7038A /* Preview Content */,
@@ -139,8 +171,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B08D6692926EB9D00B7038A /* ContentView.swift in Sources */,
-				1B08D6672926EB9D00B7038A /* Holiday_Gifts_ListApp.swift in Sources */,
+				1B08D6802927140300B7038A /* RootView.swift in Sources */,
+				1B08D682292714D000B7038A /* GiftView.swift in Sources */,
+				1B08D67A2926ED0900B7038A /* Recipient.swift in Sources */,
+				1B08D67C2927112C00B7038A /* CloudController.swift in Sources */,
+				1B08D6842927299500B7038A /* GiftRow.swift in Sources */,
+				1B08D6762926EBCF00B7038A /* Gift.swift in Sources */,
+				1B08D6782926EC6800B7038A /* GiftsData.swift in Sources */,
+				1B08D6692926EB9D00B7038A /* GiftsList.swift in Sources */,
+				1B08D67E2927118C00B7038A /* UserDefaults.swift in Sources */,
+				1B08D6672926EB9D00B7038A /* HolidayGiftsListApp.swift in Sources */,
+				1B6896CE2932B4B8004E6730 /* BiometricAuthentication.swift in Sources */,
+				1B08D686292737A000B7038A /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +311,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Holiday-Gifts-List-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Holiday Gifts";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock your private list";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -279,12 +325,12 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaydenirwin.Holiday-Gifts-List";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jaydenirwin.holidaygiftslist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -307,6 +353,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Holiday-Gifts-List-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Holiday Gifts";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock your private list";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -317,12 +367,12 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaydenirwin.Holiday-Gifts-List";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jaydenirwin.holidaygiftslist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
