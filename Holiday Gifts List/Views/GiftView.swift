@@ -28,6 +28,20 @@ struct GiftView: View {
                     #endif
                     .privacySensitive()
                 Toggle("Purchased", isOn: $gift.isPurchased)
+                TextEditor(text: $gift.notes)
+                    .overlay(alignment: .leading) {
+                        if gift.notes.isEmpty {
+                            Text("Notes")
+                                .foregroundColor(.secondary)
+                        }
+                    }
+            }
+            Section {
+                if let query = titleCopy.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+                    Link(destination: URL(string: "https://www.amazon.com/s?k=\(query)")!) {
+                        Label("Search Amazon", systemImage: "magnifyingglass")
+                    }
+                }
             }
         }
         .navigationTitle("Gift")

@@ -7,11 +7,6 @@
 
 import Foundation
 
-var fileURL: URL {
-    let directoryURL = FileManager.default.url(forUbiquityContainerIdentifier: nil) ?? FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    return directoryURL.appending(path: "Gifts Data.json", directoryHint: .notDirectory)
-}
-
 final class GiftsData: Codable, ObservableObject {
     
     static let newestFileVersion = 1
@@ -22,12 +17,12 @@ final class GiftsData: Codable, ObservableObject {
         didSet {
             save()
         }
-     }
+    }
     @Published var recipients: [Recipient] {
         didSet {
             save()
         }
-     }
+    }
     
     var giftsWithoutRecipients: [Gift] {
         get {
@@ -54,7 +49,7 @@ final class GiftsData: Codable, ObservableObject {
     
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        fileVersion = (try? values.decode(Int.self, forKey: .fileVersion)) ?? Self.newestFileVersion
+        fileVersion = try values.decode(Int.self, forKey: .fileVersion)
         gifts = try values.decode([Gift].self, forKey: .gifts)
         recipients = try values.decode([Recipient].self, forKey: .recipients)
     }
@@ -69,7 +64,7 @@ final class GiftsData: Codable, ObservableObject {
     func save() {
         do {
             let encoded = try JSONEncoder().encode(self)
-            try encoded.write(to: fileURL, options: .atomic)
+            try encoded.write(to: CloudController.shared.fileURL, options: .atomic)
         } catch {
             print("Failed to save")
         }

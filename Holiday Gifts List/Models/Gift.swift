@@ -14,5 +14,6 @@ struct Gift: Codable, Identifiable {
     var recipientID: UUID?
     var price: Int
     var isPurchased: Bool
+    var notes: String = ""
     
 }

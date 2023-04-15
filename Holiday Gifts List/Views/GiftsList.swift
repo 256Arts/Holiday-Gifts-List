@@ -38,6 +38,7 @@ struct GiftsList: View {
                 } header: {
                     HStack {
                         Image(systemName: "person.fill")
+                            .accessibilityHidden(true)
                         Text(recipient.name)
                             .privacySensitive()
                         Menu {
@@ -56,8 +57,12 @@ struct GiftsList: View {
                         } label: {
                             Image(systemName: "ellipsis")
                         }
+                        .buttonStyle(.borderless)
+                        .accessibilitySortPriority(-1)
                         Spacer()
                         Text(currencyFormatter.string(from: NSNumber(value: recipient.priceTotal)) ?? "")
+                            .accessibilityLabel("Total")
+                            .accessibilityValue(currencyFormatter.string(from: NSNumber(value: recipient.priceTotal)) ?? "")
                             .privacySensitive()
                     }
                 }
@@ -94,6 +99,7 @@ struct GiftsList: View {
                     showingRecipientNameField = true
                 } label: {
                     Image(systemName: "person.badge.plus")
+                        .accessibilityLabel(Text("Add Recipient"))
                 }
             }
         }

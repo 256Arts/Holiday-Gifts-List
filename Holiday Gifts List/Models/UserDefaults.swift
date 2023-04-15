@@ -10,7 +10,6 @@ import Foundation
 extension UserDefaults {
     
     enum Key {
-        static let giftsData = "giftsData"
         static let requireAuthenication = "requireAuthenication"
     }
     

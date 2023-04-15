@@ -20,18 +20,22 @@ struct GiftRow: View {
             HStack {
                 Text(gift.title)
                     .privacySensitive()
-                Spacer()
-                Text(currencyFormatter.string(from: NSNumber(value: gift.price)) ?? "")
-                    .foregroundColor(.secondary)
-                    .privacySensitive()
                 if gift.isPurchased {
                     Image(systemName: "checkmark.circle")
                         .symbolVariant(.fill)
                         .imageScale(.small)
                         .foregroundColor(.secondary)
+                        .accessibilityRepresentation {
+                            Text("Purchased")
+                        }
                 }
+                Spacer()
+                Text(currencyFormatter.string(from: NSNumber(value: gift.price)) ?? "")
+                    .foregroundColor(.secondary)
+                    .privacySensitive()
             }
         }
+        .accessibilityRemoveTraits(.isSelected)
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive) {
                 if let index = giftsData.gifts.firstIndex(where: { $0.id == gift.id }) {
