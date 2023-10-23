@@ -6,141 +6,201 @@
 //
 
 import SwiftUI
+import SwiftData
+import TipKit
+
+struct AddRecipientTip: Tip {
+    var title: Text { Text("Add a Recipient") }
+    var message: Text? { Text("Create a list for each person you want to give gifts to.") }
+    var image: Image? { nil }
+}
 
 struct GiftsList: View {
     
-    @EnvironmentObject var giftsData: GiftsData
+    @AppStorage(UserDefaults.Key.showBirthdays) private var showBirthdays = true
+    @Environment(\.modelContext) private var modelContext
+    @Query var recipients: [Recipient]
+    @Query var gifts: [Gift]
     
+    @State var showingNewGiftWithoutRecipient = false
     @State var showingSettings = false
-    @State var showingRecipientNameField = false
-    @State var editingRecipientID: UUID?
+    @State var showingNewRecipient = false
+    @State var editingRecipient: Recipient?
     @State var recipientName = ""
+    
+    /// Recipient which will be added to a new gift the user is creating
+    @State var newGiftRecipient: Recipient?
+    
+    private var giftsWithoutRecipients: [Gift] {
+        ((try? gifts.filter(#Predicate<Gift> {
+            $0.recipient == nil
+        })) ?? []).sorted()
+    }
     
     var body: some View {
         List {
-            ForEach(giftsData.recipients) { recipient in
+            ForEach(recipients.sorted()) { recipient in
                 Section {
-                    ForEach(giftsData.gifts.filter({ $0.recipientID == recipient.id })) { gift in
-                        GiftRow(gift: Binding(get: {
-                            gift
-                        }, set: { newValue in
-                            if let index = giftsData.gifts.firstIndex(where: { $0.id == gift.id }) {
-                                giftsData.gifts[index] = newValue
-                            }
-                        }))
+                    ForEach(recipient.gifts?.sorted() ?? []) { gift in
+                        GiftRow(gift: gift)
                     }
-                    
+
                     Button {
-                        giftsData.gifts.append(Gift(id: UUID(), title: "", recipientID: recipient.id, price: 0, isPurchased: false))
+                        newGiftRecipient = recipient
                     } label: {
                         Label("New Gift", systemImage: "plus")
                     }
+                    #if os(watchOS)
+                    .foregroundColor(.accentColor)
+                    #endif
                 } header: {
                     HStack {
                         Image(systemName: "person.fill")
                             .accessibilityHidden(true)
-                        Text(recipient.name)
-                            .privacySensitive()
+                        
+                        VStack(alignment: .leading) {
+                            Text(recipient.name ?? "")
+                            
+                            HStack {
+                                if showBirthdays, let daysUntil = recipient.daysUntilBirthday {
+                                    ViewThatFits {
+                                        Text("\(daysUntil) days left")
+                                        Text("\(daysUntil) days")
+                                        Text("\(daysUntil)d")
+                                    }
+                                }
+                                
+                                Text("\(currencyFormatter.string(from: NSNumber(value: recipient.spentTotal)) ?? "") spent")
+                                    .accessibilityLabel("Spent")
+                                    .accessibilityValue(currencyFormatter.string(from: NSNumber(value: recipient.spentTotal)) ?? "")
+                                    .privacySensitive()
+                            }
+                            .lineLimit(1)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        #if !os(watchOS)
                         Menu {
                             Button {
-                                recipientName = recipient.name
-                                editingRecipientID = recipient.id
+                                recipientName = recipient.name ?? ""
+                                editingRecipient = recipient
                             } label: {
-                                Label("Rename", systemImage: "pencil")
+                                Label("Edit", systemImage: "pencil")
                             }
                             Button(role: .destructive) {
-                                giftsData.gifts.removeAll(where: { $0.recipientID == recipient.id })
-                                giftsData.recipients.removeAll(where: { $0.id == recipient.id })
+                                modelContext.delete(recipient)
                             } label: {
                                 Label("Delete", systemImage: "trash")
                             }
                         } label: {
                             Image(systemName: "ellipsis")
+                                .symbolVariant(.circle)
+                                .imageScale(.large)
+                                .frame(height: 32)
+                                .contentShape(Rectangle())
                         }
                         .buttonStyle(.borderless)
                         .accessibilitySortPriority(-1)
-                        Spacer()
-                        Text(currencyFormatter.string(from: NSNumber(value: recipient.priceTotal)) ?? "")
-                            .accessibilityLabel("Total")
-                            .accessibilityValue(currencyFormatter.string(from: NSNumber(value: recipient.priceTotal)) ?? "")
-                            .privacySensitive()
+                        #endif
                     }
                 }
             }
             
             Section {
-                ForEach($giftsData.giftsWithoutRecipients) { $gift in
-                    GiftRow(gift: $gift)
+                ForEach(giftsWithoutRecipients) { gift in
+                    GiftRow(gift: gift)
                 }
                 
                 Button {
-                    giftsData.gifts.append(Gift(id: UUID(), title: "", recipientID: nil, price: 0, isPurchased: false))
+                    showingNewGiftWithoutRecipient = true
                 } label: {
                     Label("New Gift", systemImage: "plus")
                 }
+                #if os(watchOS)
+                .foregroundColor(.accentColor)
+                #endif
             } header: {
                 Label("Gifts with no Recipient", systemImage: "questionmark")
             }
         }
         .headerProminence(.increased)
-        .navigationTitle("Holiday Gifts List")
+        .navigationTitle("Gifts List")
+        .navigationDestination(for: Gift.self) { gift in
+            GiftView(gift: gift)
+        }
         .toolbar {
-            #if !os(macOS)
+            #if os(iOS)
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
                     showingSettings = true
                 } label: {
                     Image(systemName: "gear")
+                        .accessibilityLabel("Settings")
                 }
             }
             #endif
-            ToolbarItem(placement: .primaryAction) {
+            
+            #if os(watchOS)
+            ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    showingRecipientNameField = true
+                    showingNewRecipient = true
                 } label: {
                     Image(systemName: "person.badge.plus")
-                        .accessibilityLabel(Text("Add Recipient"))
+                        .accessibilityLabel("Add Recipient")
                 }
             }
+            #else
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    showingNewRecipient = true
+                } label: {
+                    Image(systemName: "person.badge.plus")
+                        .accessibilityLabel("Add Recipient")
+                }
+                .popoverTip(AddRecipientTip())
+            }
+            #endif
         }
-        .alert("New Recipient", isPresented: $showingRecipientNameField, actions: {
-            TextField("Recipient Name", text: $recipientName)
-            Button("Cancel", role: .cancel) {
-                recipientName = ""
+        .sheet(isPresented: $showingNewGiftWithoutRecipient) {
+            NavigationStack {
+                NewGiftView(recipient: nil)
             }
-            Button("Add") {
-                giftsData.recipients.append(Recipient(id: UUID(), name: recipientName))
-                recipientName = ""
-            }
-        })
-        .alert("Edit Recipient", isPresented: Binding(get: {
-            editingRecipientID != nil
+        }
+        .sheet(item: Binding(get: {
+            newGiftRecipient
         }, set: { newValue in
-            if !newValue {
-                editingRecipientID = nil
-            }
-        })) {
-            TextField("Recipient Name", text: $recipientName)
-            Button("Cancel", role: .cancel) {
-                recipientName = ""
-            }
-            Button("Save") {
-                if let index = giftsData.recipients.firstIndex(where: { $0.id == editingRecipientID }) {
-                    giftsData.recipients[index].name = recipientName
-                }
-                recipientName = ""
+            newGiftRecipient = newValue
+        })) { recipient in
+            NavigationStack {
+                NewGiftView(recipient: recipient)
             }
         }
+        .sheet(isPresented: $showingNewRecipient) {
+            NavigationStack {
+                NewRecipientView()
+            }
+        }
+        .sheet(item: $editingRecipient) { recipient in
+            NavigationStack {
+                RecipientView(recipient: recipient)
+            }
+        }
+        #if os(iOS)
         .sheet(isPresented: $showingSettings) {
             NavigationStack {
                 SettingsView()
             }
         }
+        #endif
     }
 }
 
-struct GiftsList_Previews: PreviewProvider {
-    static var previews: some View {
-        GiftsList()
-    }
+#Preview {
+    GiftsList()
+        #if DEBUG
+        .modelContainer(previewContainer)
+        #endif
 }

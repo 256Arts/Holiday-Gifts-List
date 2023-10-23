@@ -33,13 +33,13 @@ struct ContactPickerButton<Label: View>: UIViewControllerRepresentable {
         @Binding var contact: CNContact?
         
         // Possible take a binding
-        init<Label: View>(contact: Binding<CNContact?>, onCancel: @escaping () -> Void, @ViewBuilder content: @escaping () -> Label) {
+        init<Label2: View>(contact: Binding<CNContact?>, onCancel: @escaping () -> Void, @ViewBuilder content: @escaping () -> Label2) {
             self._contact = contact
             self.onCancel = onCancel
             super.init()
-            let button = Button<Label>(action: showContactPicker, label: content)
+            let button = Button<Label2>(action: showContactPicker, label: content)
             
-            let hostingController: UIHostingController<Button<Label>> = UIHostingController(rootView: button)
+            let hostingController: UIHostingController<Button<Label2>> = UIHostingController(rootView: button)
             
             hostingController.view?.backgroundColor = .clear
             hostingController.view?.sizeToFit()

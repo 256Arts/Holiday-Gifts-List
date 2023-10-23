@@ -9,24 +9,20 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @EnvironmentObject var giftsData: GiftsData
     @Environment(\.dismiss) private var dismiss
     
     @AppStorage(UserDefaults.Key.requireAuthenication) private var requireAuthenication = false
-    
-    @State private var showingDeleteConfirmation = false
+    @AppStorage(UserDefaults.Key.showBirthdays) private var showBirthdays = true
     
     var body: some View {
         Form {
             Section {
                 Toggle("Lock with Biometrics", isOn: $requireAuthenication)
-                Button("Erase All Data", role: .destructive) {
-                    showingDeleteConfirmation = true
-                }
+                Toggle("Show Birthdays", isOn: $showBirthdays)
             }
             
             Section {
-                Link(destination: URL(string: "https://www.jaydenirwin.com/")!) {
+                Link(destination: URL(string: "https://www.256arts.com/")!) {
                     Label("Developer Website", systemImage: "safari")
                 }
                 Link(destination: URL(string: "https://www.256arts.com/joincommunity/")!) {
@@ -47,18 +43,9 @@ struct SettingsView: View {
                 }
             }
         }
-        .alert("Delete All Data?", isPresented: $showingDeleteConfirmation) {
-            Button("Cancel", role: .cancel, action: { })
-            Button("Delete", role: .destructive) {
-                giftsData.gifts.removeAll()
-                giftsData.recipients.removeAll()
-            }
-        }
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
+#Preview {
+    SettingsView()
 }

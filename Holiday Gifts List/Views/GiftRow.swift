@@ -9,47 +9,61 @@ import SwiftUI
 
 struct GiftRow: View {
     
-    @EnvironmentObject var giftsData: GiftsData
+    @Environment(\.modelContext) private var modelContext
     
-    @Binding var gift: Gift
+    @Bindable var gift: Gift
     
     var body: some View {
-        NavigationLink {
-            GiftView(gift: $gift)
-        } label: {
+        NavigationLink(value: gift) {
             HStack {
-                Text(gift.title)
+                Text(gift.title ?? "")
                     .privacySensitive()
-                if gift.isPurchased {
-                    Image(systemName: "checkmark.circle")
-                        .symbolVariant(.fill)
-                        .imageScale(.small)
-                        .foregroundColor(.secondary)
-                        .accessibilityRepresentation {
-                            Text("Purchased")
-                        }
-                }
+                
                 Spacer()
-                Text(currencyFormatter.string(from: NSNumber(value: gift.price)) ?? "")
+                
+                Text(currencyFormatter.string(from: NSNumber(value: gift.price ?? .nan)) ?? "")
                     .foregroundColor(.secondary)
                     .privacySensitive()
+                
+                Group {
+                    switch gift.status {
+                    case .idea:
+                        Image(systemName: "lightbulb")
+                            .accessibilityRepresentation {
+                                Text("Idea")
+                            }
+                    case .inTransit:
+                        Image(systemName: "truck.box")
+                            .accessibilityRepresentation {
+                                Text("In Transit")
+                            }
+                    case .acquired:
+                        Image(systemName: "house")
+                            .accessibilityRepresentation {
+                                Text("Acquired")
+                            }
+                    case .wrapped:
+                        Image(systemName: "gift")
+                            .accessibilityRepresentation {
+                                Text("Wrapped")
+                            }
+                    case nil:
+                        Image("")
+                    }
+                }
+                .symbolVariant(.fill)
+                .imageScale(.small)
+                .foregroundColor(.secondary)
+                .frame(width: 20)
             }
         }
         .accessibilityRemoveTraits(.isSelected)
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive) {
-                if let index = giftsData.gifts.firstIndex(where: { $0.id == gift.id }) {
-                    giftsData.gifts.remove(at: index)
-                }
+                modelContext.delete(gift)
             } label: {
                 Image(systemName: "trash")
             }
         }
-    }
-}
-
-struct GiftRow_Previews: PreviewProvider {
-    static var previews: some View {
-        GiftRow(gift: .constant(Gift(id: UUID(), title: "Title", price: 20, isPurchased: true)))
     }
 }

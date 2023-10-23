@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SwiftData
+import TipKit
 
 @main
 struct HolidayGiftsListApp: App {
@@ -16,12 +18,34 @@ struct HolidayGiftsListApp: App {
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                RootView()
+            TabView {
+                NavigationStack {
+                    GiftsList()
+                }
+                .tabItem {
+                    Label("Gifts", systemImage: "gift")
+                }
+                NavigationStack {
+                    ShoppingList()
+                }
+                .tabItem {
+                    Label("Shopping List", systemImage: "list.bullet")
+                }
             }
             .redacted(reason: biometrics.isAuthenticated ? [] : .privacy)
+            .task {
+                // Configure and load your tips at app launch.
+                try? Tips.configure([
+                    .displayFrequency(.immediate),
+                    .datastoreLocation(.applicationDefault)
+                ])
+            }
         }
-        .onChange(of: scenePhase) { phase in
+//        .modelContainer(for: [Gift.self, Recipient.self])
+        #if DEBUG
+        .modelContainer(previewContainer)
+        #endif
+        .onChange(of: scenePhase) { _, phase in
             switch phase {
             case .active:
                 Task {
