@@ -2,6 +2,7 @@ import SwiftUI
 import Contacts
 import ContactsUI
 
+#if canImport(UIKit)
 struct SomeView: View {
     @State var contact: CNContact?
     
@@ -39,16 +40,24 @@ struct ContactPickerButton<Label: View>: UIViewControllerRepresentable {
             super.init()
             let button = Button<Label2>(action: showContactPicker, label: content)
             
-            let hostingController: UIHostingController<Button<Label2>> = UIHostingController(rootView: button)
+            let hostingController = UIHostingController(rootView: button)
             
             hostingController.view?.backgroundColor = .clear
             hostingController.view?.sizeToFit()
             
+            #if os(visionOS)
+            (viewController.view?.frame).map {
+                hostingController.view!.widthAnchor.constraint(equalToConstant: $0.width).isActive = true
+                hostingController.view!.heightAnchor.constraint(equalToConstant: hostingController.view!.frame.height).isActive = true
+                viewController.preferredContentSize = CGSize(width: viewController.view!.frame.width, height: hostingController.view!.frame.height)
+            }
+            #else
             (hostingController.view?.frame).map {
                 hostingController.view!.widthAnchor.constraint(equalToConstant: $0.width).isActive = true
                 hostingController.view!.heightAnchor.constraint(equalToConstant: $0.height).isActive = true
                 viewController.preferredContentSize = $0.size
             }
+            #endif
                 
             hostingController.willMove(toParent: viewController)
             viewController.addChild(hostingController)
@@ -117,3 +126,4 @@ fileprivate extension UIView {
         self.trailingAnchor.constraint(equalTo: other.trailingAnchor).isActive = true
     }
 }
+#endif

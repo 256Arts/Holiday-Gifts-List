@@ -48,7 +48,10 @@ struct GiftRow: View {
                                 Text("Wrapped")
                             }
                     case nil:
-                        Image("")
+                        Image(systemName: "questionmark.square.dashed")
+                            .accessibilityRepresentation {
+                                Text("Unknown Status")
+                            }
                     }
                 }
                 .symbolVariant(.fill)

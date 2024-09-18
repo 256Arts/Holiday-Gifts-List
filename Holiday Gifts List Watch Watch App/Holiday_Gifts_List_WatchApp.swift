@@ -15,9 +15,10 @@ struct Holiday_Gifts_List_Watch_Watch_AppApp: App {
                 GiftsList()
             }
         }
-//        .modelContainer(for: [Gift.self, Recipient.self])
-        #if DEBUG
+        #if targetEnvironment(simulator)
         .modelContainer(previewContainer)
+        #else
+        .modelContainer(for: [Gift.self, Recipient.self])
         #endif
     }
 }

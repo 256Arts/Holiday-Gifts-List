@@ -33,17 +33,13 @@ struct GiftView: View {
     var body: some View {
         Form {
             Section {
-                TextField("Title", text: $title, onCommit: {
-                    gift.title = title
-                })
+                TextField("Title", text: $title)
                     #if os(iOS)
                     .textInputAutocapitalization(.words)
                     #endif
                     .privacySensitive()
                 
-                TextField("Price", value: $price, formatter: currencyFormatter, onCommit: {
-                    gift.price = price
-                })
+                TextField("Price", value: $price, formatter: currencyFormatter)
                     #if os(iOS)
                     .keyboardType(.decimalPad)
                     #endif
@@ -104,6 +100,12 @@ struct GiftView: View {
             }
         }
         .navigationTitle("Gift")
+        .onChange(of: title) { _, newValue in
+            gift.title = newValue
+        }
+        .onChange(of: price) { _, newValue in
+            gift.price = price
+        }
         .onChange(of: status) { _, newValue in
             gift.status = newValue
         }

@@ -41,9 +41,15 @@ struct HolidayGiftsListApp: App {
                 ])
             }
         }
-//        .modelContainer(for: [Gift.self, Recipient.self])
-        #if DEBUG
+        #if targetEnvironment(macCatalyst)
+        .defaultSize(CGSize(width: 400, height: 600))
+        #else
+        .defaultSize(CGSize(width: 500, height: 700))
+        #endif
+        #if targetEnvironment(simulator)
         .modelContainer(previewContainer)
+        #else
+        .modelContainer(for: [Gift.self, Recipient.self])
         #endif
         .onChange(of: scenePhase) { _, phase in
             switch phase {
@@ -52,7 +58,9 @@ struct HolidayGiftsListApp: App {
                     await biometrics.authenticate()
                 }
             case .background:
+                #if !os(macOS) && !targetEnvironment(macCatalyst)
                 biometrics.isAuthenticated = false
+                #endif
             default:
                 break
             }

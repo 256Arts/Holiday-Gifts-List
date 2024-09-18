@@ -22,7 +22,7 @@ struct NewRecipientView: View {
     
     var body: some View {
         Form {
-            #if !os(watchOS)
+            #if !os(watchOS) && !os(macOS)
             Section {
                 ContactPickerButton(contact: $contact) {
                     Label("Autofill from Contact", systemImage: "person.crop.circle")
@@ -71,7 +71,7 @@ struct NewRecipientView: View {
             #endif
             ToolbarItem(placement: .confirmationAction) {
                 Button("Add") {
-                    let recipient = Recipient(name: name, birthday: birthday, spendGoal: spendGoal)
+                    let recipient = Recipient(name: name, birthday: hasBirthday ? birthday : nil, spendGoal: spendGoal)
                     modelContext.insert(recipient)
                     dismiss()
                 }

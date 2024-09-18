@@ -17,8 +17,14 @@ struct ShoppingList: View {
     }
     
     var body: some View {
-        List(giftIdeas.sorted()) { gift in
-            ShoppingRow(gift: gift)
+        Group {
+            if giftIdeas.isEmpty {
+                Text("No Gift Ideas").foregroundStyle(.secondary)
+            } else {
+                List(giftIdeas.sorted()) { gift in
+                    ShoppingRow(gift: gift)
+                }
+            }
         }
         .navigationTitle("Shopping List")
         .navigationDestination(for: Gift.self) { gift in

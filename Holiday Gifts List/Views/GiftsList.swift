@@ -127,7 +127,9 @@ struct GiftsList: View {
             }
         }
         .headerProminence(.increased)
+        #if !targetEnvironment(macCatalyst)
         .navigationTitle("Gifts List")
+        #endif
         .navigationDestination(for: Gift.self) { gift in
             GiftView(gift: gift)
         }

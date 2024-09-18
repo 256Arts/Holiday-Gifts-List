@@ -30,9 +30,7 @@ struct RecipientView: View {
     var body: some View {
         Form {
             Section {
-                TextField("Name", text: $name, onCommit: {
-                    recipient.name = name
-                })
+                TextField("Name", text: $name)
                 #if os(iOS)
                 .textInputAutocapitalization(.words)
                 #endif
@@ -40,6 +38,9 @@ struct RecipientView: View {
                 LabeledContent("Birthday") {
                     VStack(alignment: .trailing) {
                         Toggle("Birthday", isOn: $hasBirthday)
+                            #if targetEnvironment(macCatalyst)
+                            .toggleStyle(.switch)
+                            #endif
                         if hasBirthday {
                             DatePicker("Birthday", selection: $birthday, in: Date.distantPast...Date.now, displayedComponents: .date)
                         }
@@ -60,6 +61,16 @@ struct RecipientView: View {
                 Button("Save") {
                     dismiss()
                 }
+            }
+        }
+        .onChange(of: name) { _, newValue in
+            recipient.name = newValue
+        }
+        .onChange(of: hasBirthday) { _, newValue in
+            if newValue {
+                recipient.birthday = birthday
+            } else {
+                recipient.birthday = nil
             }
         }
         .onChange(of: birthday) { _, newValue in
