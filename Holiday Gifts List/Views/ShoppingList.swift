@@ -13,7 +13,7 @@ struct ShoppingList: View {
     @Query private var gifts: [Gift]
     
     private var giftIdeas: [Gift] {
-        gifts.filter({ $0.status == .idea }).sorted()
+        gifts.filter({ $0.status == .idea && $0.recipient?.name != "<Me>" }).sorted()
     }
     
     var body: some View {

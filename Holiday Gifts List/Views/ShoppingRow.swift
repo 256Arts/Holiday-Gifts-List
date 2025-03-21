@@ -9,10 +9,14 @@ import SwiftUI
 
 struct ShoppingRow: View {
     
-    @AppStorage(UserDefaults.Key.showBirthdays) private var showBirthdays = true
+    @AppStorage(UserDefaults.Key.recipientSortBy) private var recipientSortByValue = RecipientSort.defaultSort.rawValue
     @Environment(\.modelContext) private var modelContext
     
     @Bindable var gift: Gift
+    
+    private var recipientSortBy: RecipientSort {
+        .init(rawValue: UserDefaults.standard.string(forKey: UserDefaults.Key.recipientSortBy) ?? "") ?? .defaultSort
+    }
     
     var body: some View {
         NavigationLink(value: gift) {
@@ -26,7 +30,7 @@ struct ShoppingRow: View {
                             if let name = recipient.name {
                                 Text("For \(name)")
                             }
-                            if showBirthdays, let daysUntilBirthday = recipient.daysUntilBirthday {
+                            if recipientSortBy == .nearestBirthday, let daysUntilBirthday = recipient.daysUntilBirthday {
                                 Text("in \(daysUntilBirthday) days")
                             }
                         }

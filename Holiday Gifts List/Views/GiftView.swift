@@ -13,7 +13,8 @@ struct GiftView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    @Query var recipients: [Recipient]
+    @Query(sort: \Recipient.name) var recipients: [Recipient]
+    @Query(sort: \Event.name) var events: [Event]
     
     @Bindable var gift: Gift
     
@@ -46,14 +47,14 @@ struct GiftView: View {
                     .privacySensitive()
                 
                 Picker("Status", selection: $status) {
-                    Text("Idea")
-                        .tag(Status.idea)
-                    Text("In Transit")
-                        .tag(Status.inTransit)
-                    Text("Acquired")
-                        .tag(Status.acquired)
-                    Text("Wrapped")
-                        .tag(Status.wrapped)
+                    ForEach(Status.allCases) { status in
+                        Label {
+                            Text(status.title)
+                        } icon: {
+                            status.icon
+                        }
+                        .tag(status)
+                    }
                 }
                 
                 #if !os(watchOS)
@@ -78,8 +79,24 @@ struct GiftView: View {
                     Divider()
                     
                     ForEach(recipients) { recipient in
-                        Text(recipient.name ?? "")
+                        Label(recipient.isMe ? "Me" : recipient.name ?? "", systemImage: recipient.isMe ? "person.crop.circle" : "")
                             .tag(recipient as Recipient?)
+                    }
+                }
+                
+                Picker("Event", selection: $gift.event) {
+                    Text("None")
+                        .tag(nil as Event?)
+                    
+                    Divider()
+                    
+                    ForEach(events) { event in
+                        Label {
+                            Text(event.name ?? "")
+                        } icon: {
+                            event.icon ?? Image("")
+                        }
+                        .tag(event as Event?)
                     }
                 }
             }

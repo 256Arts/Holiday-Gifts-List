@@ -19,6 +19,10 @@ struct RecipientView: View {
     @State var birthday: Date
     @State var spendGoal: Double?
     
+    var spentTotal: Double {
+        (recipient.gifts ?? []).filter({ $0.status != .idea && $0.status != .given }).reduce(0.0, { $0 + ($1.price ?? 0) })
+    }
+    
     init(recipient: Recipient) {
         self.recipient = recipient
         self._name = State(initialValue: recipient.name ?? "")
@@ -51,7 +55,7 @@ struct RecipientView: View {
             
             Section {
                 LabeledContent("Spent") {
-                    Text(currencyFormatter.string(from: NSNumber(value: recipient.spentTotal)) ?? "")
+                    Text(currencyFormatter.string(from: NSNumber(value: spentTotal)) ?? "")
                 }
             }
         }

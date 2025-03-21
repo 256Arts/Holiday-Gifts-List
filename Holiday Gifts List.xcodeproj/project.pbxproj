@@ -15,6 +15,11 @@
 		1B08D66F2926EB9F00B7038A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B08D66E2926EB9F00B7038A /* Preview Assets.xcassets */; };
 		1B08D67E2927118C00B7038A /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D67D2927118C00B7038A /* UserDefaults.swift */; };
 		1B08D686292737A000B7038A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D685292737A000B7038A /* SettingsView.swift */; };
+		1B0BAC3A2D8D107A00821A43 /* RecipientRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9A4CB32D8D0DAB0013D48B /* RecipientRow.swift */; };
+		1B12E54A2D01595B0047F93B /* MyWishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B12E5492D0159530047F93B /* MyWishlistView.swift */; };
+		1B12E54B2D01595B0047F93B /* MyWishlistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B12E5492D0159530047F93B /* MyWishlistView.swift */; };
+		1B18FC202D8D03F9001D4534 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B18FC1F2D8D03F5001D4534 /* Event.swift */; };
+		1B18FC212D8D03F9001D4534 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B18FC1F2D8D03F5001D4534 /* Event.swift */; };
 		1B293FE22A33CDF400EF1965 /* Gift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B293FE12A33CDF400EF1965 /* Gift.swift */; };
 		1B44C3252AE5D465000EFC3F /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B44C3242AE5D465000EFC3F /* PreviewContainer.swift */; };
 		1B44C3262AE5D465000EFC3F /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B44C3242AE5D465000EFC3F /* PreviewContainer.swift */; };
@@ -34,6 +39,7 @@
 		1B6B67122A6F46590067EFD6 /* GiftRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D6832927299500B7038A /* GiftRow.swift */; };
 		1B6B67132A6F465F0067EFD6 /* GiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B08D681292714D000B7038A /* GiftView.swift */; };
 		1B6B67142A6F46620067EFD6 /* NewGiftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5C41E529EF8E6C00BF89D2 /* NewGiftView.swift */; };
+		1B9A4CB42D8D0DB10013D48B /* RecipientRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9A4CB32D8D0DAB0013D48B /* RecipientRow.swift */; };
 		1BD2B2352A6F4C7C00E71369 /* RecipientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2B2342A6F4C7C00E71369 /* RecipientView.swift */; };
 		1BD2B2362A6F4C7C00E71369 /* RecipientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2B2342A6F4C7C00E71369 /* RecipientView.swift */; };
 		1BD2B2382A6F4C8800E71369 /* NewRecipientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD2B2372A6F4C8800E71369 /* NewRecipientView.swift */; };
@@ -79,6 +85,8 @@
 		1B08D681292714D000B7038A /* GiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftView.swift; sourceTree = "<group>"; };
 		1B08D6832927299500B7038A /* GiftRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftRow.swift; sourceTree = "<group>"; };
 		1B08D685292737A000B7038A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1B12E5492D0159530047F93B /* MyWishlistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWishlistView.swift; sourceTree = "<group>"; };
+		1B18FC1F2D8D03F5001D4534 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		1B293FE12A33CDF400EF1965 /* Gift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gift.swift; sourceTree = "<group>"; };
 		1B44C3242AE5D465000EFC3F /* PreviewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewContainer.swift; sourceTree = "<group>"; };
 		1B5C41E529EF8E6C00BF89D2 /* NewGiftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGiftView.swift; sourceTree = "<group>"; };
@@ -87,6 +95,7 @@
 		1B6B66FF2A6F45E60067EFD6 /* Holiday_Gifts_List_WatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holiday_Gifts_List_WatchApp.swift; sourceTree = "<group>"; };
 		1B6B67032A6F45E90067EFD6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B6B67062A6F45E90067EFD6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1B9A4CB32D8D0DAB0013D48B /* RecipientRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipientRow.swift; sourceTree = "<group>"; };
 		1BD2B2322A6F4A5200E71369 /* Holiday Gifts List Watch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Holiday Gifts List Watch Watch App.entitlements"; sourceTree = "<group>"; };
 		1BD2B2332A6F4A6700E71369 /* Holiday-Gifts-List-Watch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Holiday-Gifts-List-Watch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		1BD2B2342A6F4C7C00E71369 /* RecipientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipientView.swift; sourceTree = "<group>"; };
@@ -178,6 +187,7 @@
 				1B6896CD2932B4B8004E6730 /* BiometricAuthentication.swift */,
 				1B08D67D2927118C00B7038A /* UserDefaults.swift */,
 				1B293FE12A33CDF400EF1965 /* Gift.swift */,
+				1B18FC1F2D8D03F5001D4534 /* Event.swift */,
 				1B08D6792926ED0900B7038A /* Recipient.swift */,
 			);
 			path = Models;
@@ -190,9 +200,11 @@
 				1B08D6832927299500B7038A /* GiftRow.swift */,
 				1B08D681292714D000B7038A /* GiftView.swift */,
 				1B5C41E529EF8E6C00BF89D2 /* NewGiftView.swift */,
+				1B9A4CB32D8D0DAB0013D48B /* RecipientRow.swift */,
 				1BD2B2342A6F4C7C00E71369 /* RecipientView.swift */,
 				1BD2B2372A6F4C8800E71369 /* NewRecipientView.swift */,
 				1BD2B23A2A7042E300E71369 /* ContactPickerButton.swift */,
+				1B12E5492D0159530047F93B /* MyWishlistView.swift */,
 				1B0277E42AE5AF04004AA049 /* ShoppingList.swift */,
 				1B0277E62AE5B04F004AA049 /* ShoppingRow.swift */,
 				1B08D685292737A000B7038A /* SettingsView.swift */,
@@ -302,15 +314,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B12E54B2D01595B0047F93B /* MyWishlistView.swift in Sources */,
 				1B5C41E629EF8E6C00BF89D2 /* NewGiftView.swift in Sources */,
 				1B5C415D29EA38F900BF89D2 /* GiftView.swift in Sources */,
 				1B08D6692926EB9D00B7038A /* GiftsList.swift in Sources */,
 				1B5C415C29EA34B900BF89D2 /* GiftRow.swift in Sources */,
+				1B9A4CB42D8D0DB10013D48B /* RecipientRow.swift in Sources */,
 				1B08D67E2927118C00B7038A /* UserDefaults.swift in Sources */,
 				1B5C415A29EA315600BF89D2 /* Recipient.swift in Sources */,
 				1B08D6672926EB9D00B7038A /* HolidayGiftsListApp.swift in Sources */,
 				1BD2B23B2A7042E300E71369 /* ContactPickerButton.swift in Sources */,
 				1B44C3252AE5D465000EFC3F /* PreviewContainer.swift in Sources */,
+				1B18FC212D8D03F9001D4534 /* Event.swift in Sources */,
 				1B6896CE2932B4B8004E6730 /* BiometricAuthentication.swift in Sources */,
 				1B0277E52AE5AF04004AA049 /* ShoppingList.swift in Sources */,
 				1BD2B2352A6F4C7C00E71369 /* RecipientView.swift in Sources */,
@@ -327,6 +342,7 @@
 			files = (
 				1BD2B2392A6F4C8800E71369 /* NewRecipientView.swift in Sources */,
 				1B6B67132A6F465F0067EFD6 /* GiftView.swift in Sources */,
+				1B0BAC3A2D8D107A00821A43 /* RecipientRow.swift in Sources */,
 				1B6B67102A6F46330067EFD6 /* Gift.swift in Sources */,
 				1B44C3262AE5D465000EFC3F /* PreviewContainer.swift in Sources */,
 				1B6B67112A6F46360067EFD6 /* Recipient.swift in Sources */,
@@ -336,6 +352,8 @@
 				1B6B67142A6F46620067EFD6 /* NewGiftView.swift in Sources */,
 				1B6B670F2A6F462A0067EFD6 /* GiftsList.swift in Sources */,
 				1B6B67122A6F46590067EFD6 /* GiftRow.swift in Sources */,
+				1B12E54A2D01595B0047F93B /* MyWishlistView.swift in Sources */,
+				1B18FC202D8D03F9001D4534 /* Event.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,7 +494,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Holiday Gifts List/Holiday_Gifts_List.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Holiday Gifts List/Preview Content\"";
 				DEVELOPMENT_TEAM = VA3SY54YU8;
@@ -502,7 +520,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaydenirwin.holidaygiftslist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -523,7 +541,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Holiday Gifts List/Holiday_Gifts_List.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Holiday Gifts List/Preview Content\"";
 				DEVELOPMENT_TEAM = VA3SY54YU8;
@@ -549,7 +567,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaydenirwin.holidaygiftslist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -570,7 +588,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Holiday Gifts List Watch Watch App/Holiday Gifts List Watch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Holiday Gifts List Watch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = VA3SY54YU8;
 				ENABLE_PREVIEWS = YES;
@@ -585,7 +603,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaydenirwin.holidaygiftslist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -606,7 +624,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Holiday Gifts List Watch Watch App/Holiday Gifts List Watch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Holiday Gifts List Watch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = VA3SY54YU8;
 				ENABLE_PREVIEWS = YES;
@@ -621,7 +639,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jaydenirwin.holidaygiftslist.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;

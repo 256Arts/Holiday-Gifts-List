@@ -14,6 +14,8 @@ struct NewRecipientView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
     
+    let sortOrder: Int
+    
     @State var contact: CNContact?
     @State var name: String = ""
     @State var hasBirthday: Bool = false
@@ -71,7 +73,7 @@ struct NewRecipientView: View {
             #endif
             ToolbarItem(placement: .confirmationAction) {
                 Button("Add") {
-                    let recipient = Recipient(name: name, birthday: hasBirthday ? birthday : nil, spendGoal: spendGoal)
+                    let recipient = Recipient(name: name, sortOrder: sortOrder, birthday: hasBirthday ? birthday : nil, spendGoal: spendGoal)
                     modelContext.insert(recipient)
                     dismiss()
                 }
@@ -81,7 +83,7 @@ struct NewRecipientView: View {
 }
 
 #Preview {
-    NewRecipientView()
+    NewRecipientView(sortOrder: 0)
         #if DEBUG
         .modelContainer(previewContainer)
         #endif

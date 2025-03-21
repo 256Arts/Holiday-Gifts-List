@@ -19,17 +19,22 @@ struct HolidayGiftsListApp: App {
     var body: some Scene {
         WindowGroup {
             TabView {
-                NavigationStack {
-                    GiftsList()
+                Tab("Gifts", systemImage: "gift") {
+                    NavigationStack {
+                        GiftsList()
+                    }
                 }
-                .tabItem {
-                    Label("Gifts", systemImage: "gift")
+                
+                Tab("My Wishlist", systemImage: "heart") {
+                    NavigationStack {
+                        MyWishlistView()
+                    }
                 }
-                NavigationStack {
-                    ShoppingList()
-                }
-                .tabItem {
-                    Label("Shopping List", systemImage: "list.bullet")
+                
+                Tab("Shopping List", systemImage: "list.bullet") {
+                    NavigationStack {
+                        ShoppingList()
+                    }
                 }
             }
             .redacted(reason: biometrics.isAuthenticated ? [] : .privacy)
@@ -49,7 +54,7 @@ struct HolidayGiftsListApp: App {
         #if targetEnvironment(simulator)
         .modelContainer(previewContainer)
         #else
-        .modelContainer(for: [Gift.self, Recipient.self])
+        .modelContainer(for: [Gift.self, Recipient.self, Event.self])
         #endif
         .onChange(of: scenePhase) { _, phase in
             switch phase {

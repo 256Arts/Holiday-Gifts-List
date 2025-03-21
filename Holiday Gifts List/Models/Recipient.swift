@@ -11,14 +11,16 @@ import SwiftData
 @Model
 final class Recipient {
     
-    var name: String? //= ""
+    static let userName = "<Me>"
+    
+    var name: String?
+    var sortOrder: Int?
     var birthday: Date?
     var spendGoal: Double?
-    var gifts: [Gift]? //= []
+    var gifts: [Gift]?
     
-    @Transient
-    var spentTotal: Double {
-        (gifts ?? []).filter({ $0.status != .idea }).reduce(0.0, { $0 + ($1.price ?? 0) })
+    var isMe: Bool {
+        name == Recipient.userName
     }
     
     @Transient
@@ -41,8 +43,9 @@ final class Recipient {
         }
     }
     
-    init(name: String, birthday: Date? = nil, spendGoal: Double? = nil) {
+    init(name: String, sortOrder: Int, birthday: Date? = nil, spendGoal: Double? = nil) {
         self.name = name
+        self.sortOrder = sortOrder
         self.birthday = birthday
         self.spendGoal = spendGoal
         self.gifts = []
@@ -50,13 +53,44 @@ final class Recipient {
     
 }
 
+enum RecipientSort: String, CaseIterable, Identifiable {
+    case alphabetical
+    case nearestBirthday
+    case customOrder
+    
+    static let defaultSort = Self.customOrder
+    
+    var id: Self { self }
+    var title: String {
+        switch self {
+        case .alphabetical:
+            "Alphabetical"
+        case .nearestBirthday:
+            "Nearest Birthday"
+        case .customOrder:
+            "Created Date"
+        }
+    }
+}
+
 extension [Recipient] {
-    func sorted() -> [Recipient] {
+    func sorted(by sort: RecipientSort) -> [Recipient] {
         sorted(by: {
-            if $0.daysUntilBirthday == $1.daysUntilBirthday {
-                return $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedAscending
-            } else {
-                return $0.daysUntilBirthday ?? Int.max < $1.daysUntilBirthday ?? Int.max
+            switch sort {
+            case .alphabetical:
+                $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedAscending
+            case .nearestBirthday:
+                if $0.daysUntilBirthday == $1.daysUntilBirthday {
+                    $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedAscending
+                } else {
+                    $0.daysUntilBirthday ?? Int.max < $1.daysUntilBirthday ?? Int.max
+                }
+            case .customOrder:
+                if let sort0 = $0.sortOrder {
+                    sort0 < $1.sortOrder ?? 0
+                } else {
+                    $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedAscending
+                }
             }
         })
     }

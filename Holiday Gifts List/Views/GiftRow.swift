@@ -13,6 +13,8 @@ struct GiftRow: View {
     
     @Bindable var gift: Gift
     
+    let showStatus: Bool
+    
     var body: some View {
         NavigationLink(value: gift) {
             HStack {
@@ -25,39 +27,51 @@ struct GiftRow: View {
                     .foregroundColor(.secondary)
                     .privacySensitive()
                 
-                Group {
-                    switch gift.status {
-                    case .idea:
-                        Image(systemName: "lightbulb")
-                            .accessibilityRepresentation {
-                                Text("Idea")
-                            }
-                    case .inTransit:
-                        Image(systemName: "truck.box")
-                            .accessibilityRepresentation {
-                                Text("In Transit")
-                            }
-                    case .acquired:
-                        Image(systemName: "house")
-                            .accessibilityRepresentation {
-                                Text("Acquired")
-                            }
-                    case .wrapped:
-                        Image(systemName: "gift")
-                            .accessibilityRepresentation {
-                                Text("Wrapped")
-                            }
-                    case nil:
-                        Image(systemName: "questionmark.square.dashed")
-                            .accessibilityRepresentation {
-                                Text("Unknown Status")
-                            }
+                if showStatus {
+                    Group {
+                        switch gift.status {
+                        case .idea:
+                            gift.status?.icon
+                                .foregroundStyle(.secondary)
+                                .accessibilityRepresentation {
+                                    Text("Idea")
+                                }
+                        case .inTransit:
+                            gift.status?.icon
+                                .foregroundStyle(Color.red)
+                                .accessibilityRepresentation {
+                                    Text("In Transit")
+                                }
+                        case .acquired:
+                            gift.status?.icon
+                                .foregroundStyle(Color.yellow)
+                                .accessibilityRepresentation {
+                                    Text("Acquired")
+                                }
+                        case .wrapped:
+                            gift.status?.icon
+                                .foregroundStyle(Color.green)
+                                .accessibilityRepresentation {
+                                    Text("Wrapped")
+                                }
+                        case .given:
+                            gift.status?.icon
+                                .foregroundStyle(Color.purple)
+                                .accessibilityRepresentation {
+                                    Text("Given")
+                                }
+                        case nil:
+                            Image(systemName: "questionmark.square.dashed")
+                                .foregroundStyle(.secondary)
+                                .accessibilityRepresentation {
+                                    Text("Unknown Status")
+                                }
+                        }
                     }
+                    .symbolVariant(.fill)
+                    .imageScale(.small)
+                    .frame(width: 20)
                 }
-                .symbolVariant(.fill)
-                .imageScale(.small)
-                .foregroundColor(.secondary)
-                .frame(width: 20)
             }
         }
         .accessibilityRemoveTraits(.isSelected)

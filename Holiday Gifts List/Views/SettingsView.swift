@@ -12,13 +12,11 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     
     @AppStorage(UserDefaults.Key.requireAuthenication) private var requireAuthenication = false
-    @AppStorage(UserDefaults.Key.showBirthdays) private var showBirthdays = true
     
     var body: some View {
         Form {
             Section {
                 Toggle("Lock with Biometrics", isOn: $requireAuthenication)
-                Toggle("Show Birthdays", isOn: $showBirthdays)
             }
             
             Section {

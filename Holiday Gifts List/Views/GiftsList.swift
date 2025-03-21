@@ -17,19 +17,29 @@ struct AddRecipientTip: Tip {
 
 struct GiftsList: View {
     
-    @AppStorage(UserDefaults.Key.showBirthdays) private var showBirthdays = true
+    @AppStorage(UserDefaults.Key.recipientSortBy) private var recipientSortByValue = RecipientSort.defaultSort.rawValue
     @Environment(\.modelContext) private var modelContext
-    @Query var recipients: [Recipient]
+    @Query(filter: #Predicate<Recipient> { $0.name != "<Me>" }) var recipients: [Recipient]
     @Query var gifts: [Gift]
+    @Query(sort: \Event.name) var events: [Event]
     
+    @State var recipientSortBy: RecipientSort
+    @State var includeGivenGifts = false
     @State var showingNewGiftWithoutRecipient = false
+    @State var eventFilter: Event?
+    @State var newGiftSortOrder = 0
     @State var showingSettings = false
     @State var showingNewRecipient = false
+    @State var newRecipientSortOrder = 0
     @State var editingRecipient: Recipient?
     @State var recipientName = ""
     
     /// Recipient which will be added to a new gift the user is creating
     @State var newGiftRecipient: Recipient?
+    
+    init() {
+        recipientSortBy = .init(rawValue: UserDefaults.standard.string(forKey: UserDefaults.Key.recipientSortBy) ?? "") ?? .defaultSort
+    }
     
     private var giftsWithoutRecipients: [Gift] {
         ((try? gifts.filter(#Predicate<Gift> {
@@ -39,82 +49,73 @@ struct GiftsList: View {
     
     var body: some View {
         List {
-            ForEach(recipients.sorted()) { recipient in
+            #if !os(watchOS)
+            Section {
+                HStack {
+                    ForEach(events) { event in
+                        Toggle(event.name ?? "", isOn: Binding(get: {
+                            eventFilter == event
+                        }, set: { newValue in
+                            if newValue {
+                                eventFilter = event
+                            } else {
+                                eventFilter = nil
+                            }
+                        }))
+                        .toggleStyle(.button)
+                        .buttonStyle(.borderedProminent)
+                        .buttonBorderShape(.capsule)
+                        .background(Color(uiColor: UIColor.secondarySystemGroupedBackground), in: Capsule())
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                .listRowBackground(Color.clear)
+            }
+            #endif
+            
+            ForEach(recipients.sorted(by: recipientSortBy)) { recipient in
+                #if os(watchOS)
                 Section {
-                    ForEach(recipient.gifts?.sorted() ?? []) { gift in
-                        GiftRow(gift: gift)
+                    ForEach(filterAndSort(recipient.gifts ?? [])) { gift in
+                        GiftRow(gift: gift, showStatus: true)
                     }
 
                     Button {
+                        newGiftSortOrder = (gifts.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                         newGiftRecipient = recipient
                     } label: {
                         Label("New Gift", systemImage: "plus")
                     }
-                    #if os(watchOS)
                     .foregroundColor(.accentColor)
-                    #endif
                 } header: {
-                    HStack {
-                        Image(systemName: "person.fill")
-                            .accessibilityHidden(true)
-                        
-                        VStack(alignment: .leading) {
-                            Text(recipient.name ?? "")
-                            
-                            HStack {
-                                if showBirthdays, let daysUntil = recipient.daysUntilBirthday {
-                                    ViewThatFits {
-                                        Text("\(daysUntil) days left")
-                                        Text("\(daysUntil) days")
-                                        Text("\(daysUntil)d")
-                                    }
-                                }
-                                
-                                Text("\(currencyFormatter.string(from: NSNumber(value: recipient.spentTotal)) ?? "") spent")
-                                    .accessibilityLabel("Spent")
-                                    .accessibilityValue(currencyFormatter.string(from: NSNumber(value: recipient.spentTotal)) ?? "")
-                                    .privacySensitive()
-                            }
-                            .lineLimit(1)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                        }
-                        
-                        Spacer()
-                        
-                        #if !os(watchOS)
-                        Menu {
-                            Button {
-                                recipientName = recipient.name ?? ""
-                                editingRecipient = recipient
-                            } label: {
-                                Label("Edit", systemImage: "pencil")
-                            }
-                            Button(role: .destructive) {
-                                modelContext.delete(recipient)
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
-                        } label: {
-                            Image(systemName: "ellipsis")
-                                .symbolVariant(.circle)
-                                .imageScale(.large)
-                                .frame(height: 32)
-                                .contentShape(Rectangle())
-                        }
-                        .buttonStyle(.borderless)
-                        .accessibilitySortPriority(-1)
-                        #endif
-                    }
+                    RecipientRow(recipient: recipient, sortingByBirthday: recipientSortBy == .nearestBirthday, filteredGifts: filterAndSort(recipient.gifts ?? []), recipientName: $recipientName, editingRecipient: $editingRecipient)
                 }
+                #else
+                DisclosureGroup {
+                    ForEach(filterAndSort(recipient.gifts ?? [])) { gift in
+                        GiftRow(gift: gift, showStatus: true)
+                    }
+                    
+                    Button {
+                        newGiftSortOrder = (gifts.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
+                        newGiftRecipient = recipient
+                    } label: {
+                        Label("New Gift", systemImage: "plus")
+                    }
+                } label: {
+                    RecipientRow(recipient: recipient, sortingByBirthday: recipientSortBy == .nearestBirthday, filteredGifts: filterAndSort(recipient.gifts ?? []), recipientName: $recipientName, editingRecipient: $editingRecipient)
+                }
+                #endif
             }
             
-            Section {
-                ForEach(giftsWithoutRecipients) { gift in
-                    GiftRow(gift: gift)
+            #if !os(watchOS)
+            DisclosureGroup {
+                ForEach(filterAndSort(giftsWithoutRecipients)) { gift in
+                    GiftRow(gift: gift, showStatus: true)
                 }
                 
                 Button {
+                    newGiftSortOrder = (gifts.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                     showingNewGiftWithoutRecipient = true
                 } label: {
                     Label("New Gift", systemImage: "plus")
@@ -122,9 +123,17 @@ struct GiftsList: View {
                 #if os(watchOS)
                 .foregroundColor(.accentColor)
                 #endif
-            } header: {
-                Label("Gifts with no Recipient", systemImage: "questionmark")
+            } label: {
+                HStack {
+                    Image(systemName: "person.slash.fill")
+                        .accessibilityHidden(true)
+                    
+                    Text("Gifts with no Recipient")
+                        .bold()
+                }
+                .foregroundStyle(filterAndSort(giftsWithoutRecipients).isEmpty ? .secondary : .primary)
             }
+            #endif
         }
         .headerProminence(.increased)
         #if !targetEnvironment(macCatalyst)
@@ -157,6 +166,7 @@ struct GiftsList: View {
             #else
             ToolbarItem(placement: .primaryAction) {
                 Button {
+                    newRecipientSortOrder = (recipients.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                     showingNewRecipient = true
                 } label: {
                     Image(systemName: "person.badge.plus")
@@ -164,11 +174,23 @@ struct GiftsList: View {
                 }
                 .popoverTip(AddRecipientTip())
             }
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu("Filter", systemImage: "line.3.horizontal.decrease") {
+                    Toggle("Include Given Gifts", isOn: $includeGivenGifts)
+                    Picker("Sort By", selection: $recipientSortBy) {
+                        ForEach(RecipientSort.allCases) { sort in
+                            Text(sort.title)
+                                .tag(sort)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                }
+            }
             #endif
         }
         .sheet(isPresented: $showingNewGiftWithoutRecipient) {
             NavigationStack {
-                NewGiftView(recipient: nil)
+                NewGiftView(recipient: nil, sortOrder: newGiftSortOrder)
             }
         }
         .sheet(item: Binding(get: {
@@ -177,12 +199,12 @@ struct GiftsList: View {
             newGiftRecipient = newValue
         })) { recipient in
             NavigationStack {
-                NewGiftView(recipient: recipient)
+                NewGiftView(recipient: recipient, sortOrder: newGiftSortOrder)
             }
         }
         .sheet(isPresented: $showingNewRecipient) {
             NavigationStack {
-                NewRecipientView()
+                NewRecipientView(sortOrder: newRecipientSortOrder)
             }
         }
         .sheet(item: $editingRecipient) { recipient in
@@ -197,6 +219,22 @@ struct GiftsList: View {
             }
         }
         #endif
+        .onChange(of: recipientSortBy) { _, newValue in
+            recipientSortByValue = newValue.rawValue
+        }
+        .onAppear {
+            if events.isEmpty {
+                modelContext.insert(Event(name: "Birthday", date: .distantPast))
+                modelContext.insert(Event(name: "Holidays", date: Calendar.current.date(from: DateComponents(month: 12, day: 25))))
+            }
+        }
+    }
+    
+    private func filterAndSort(_ gifts: [Gift]) -> [Gift] {
+        gifts
+            .filter { includeGivenGifts || $0.status != .given }
+            .filter { eventFilter == nil || eventFilter == $0.event }
+            .sorted()
     }
 }
 
