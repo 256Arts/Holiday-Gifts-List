@@ -51,10 +51,8 @@ struct ShoppingRow: View {
         }
         .accessibilityRemoveTraits(.isSelected)
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive) {
+            Button("Delete", systemImage: "trash", role: .destructive) {
                 modelContext.delete(gift)
-            } label: {
-                Image(systemName: "trash")
             }
         }
     }

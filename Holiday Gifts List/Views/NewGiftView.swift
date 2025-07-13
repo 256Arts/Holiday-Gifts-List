@@ -87,13 +87,13 @@ struct NewGiftView: View {
         .toolbar {
             #if !os(watchOS)
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
+                Button("Cancel", systemImage: "xmark") {
                     dismiss()
                 }
             }
             #endif
             ToolbarItem(placement: .confirmationAction) {
-                Button("Add") {
+                Button("Add", systemImage: "checkmark") {
                     let gift = Gift(title: title, sortOrder: sortOrder, price: price, notes: notes, status: status, recipient: recipient, event: event)
                     modelContext.insert(gift)
                     dismiss()

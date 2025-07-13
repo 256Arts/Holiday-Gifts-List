@@ -19,7 +19,7 @@ struct NewRecipientView: View {
     @State var contact: CNContact?
     @State var name: String = ""
     @State var hasBirthday: Bool = false
-    @State var birthday: Date = .now.addingTimeInterval(-30 * 365 * 24 * 60 * 60)
+    @State var birthday: Date = .now.addingTimeInterval(-30.0 * 365 * 24 * 60 * 60)
     @State var spendGoal: Double?
     
     var body: some View {
@@ -66,13 +66,13 @@ struct NewRecipientView: View {
         .toolbar {
             #if !os(watchOS)
             ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
+                Button("Cancel", systemImage: "xmark") {
                     dismiss()
                 }
             }
             #endif
             ToolbarItem(placement: .confirmationAction) {
-                Button("Add") {
+                Button("Add", systemImage: "checkmark") {
                     let recipient = Recipient(name: name, sortOrder: sortOrder, birthday: hasBirthday ? birthday : nil, spendGoal: spendGoal)
                     modelContext.insert(recipient)
                     dismiss()

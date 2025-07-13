@@ -73,6 +73,18 @@ enum RecipientSort: String, CaseIterable, Identifiable {
     }
 }
 
+enum RecipientSummaryInfo: String, CaseIterable, Identifiable {
+    case totalSpent
+    case giftCount
+    
+    static let defaultInfo = Self.totalSpent
+    
+    var id: Self { self }
+    var title: String {
+        self == .totalSpent ? "Total Spent" : "Number of Gifts"
+    }
+}
+
 extension [Recipient] {
     func sorted(by sort: RecipientSort) -> [Recipient] {
         sorted(by: {

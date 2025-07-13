@@ -27,14 +27,12 @@ struct MyWishlistView: View {
                 GiftRow(gift: gift, showStatus: false)
             }
             
-            Button {
+            Button("New Gift", systemImage: "plus") {
                 if me == nil {
                     modelContext.insert(Recipient(name: Recipient.userName, sortOrder: -1))
                 }
                 newGiftSortOrder = (gifts.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                 showingNewGift = true
-            } label: {
-                Label("New Gift", systemImage: "plus")
             }
             #if os(watchOS)
             .foregroundColor(.accentColor)

@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import TipKit
+import LocalAuthentication
 
 struct AddRecipientTip: Tip {
     var title: Text { Text("Add a Recipient") }
@@ -17,8 +18,11 @@ struct AddRecipientTip: Tip {
 
 struct GiftsList: View {
     
+    @AppStorage(UserDefaults.Key.requireAuthenication) private var requireAuthenication = false
+    @AppStorage(UserDefaults.Key.recipientSummaryInfo) private var recipientSummaryInfoValue = RecipientSummaryInfo.defaultInfo.rawValue
     @AppStorage(UserDefaults.Key.recipientSortBy) private var recipientSortByValue = RecipientSort.defaultSort.rawValue
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.accessibilityAssistiveAccessEnabled) private var isAssistiveAccessEnabled
     @Query(filter: #Predicate<Recipient> { $0.name != "<Me>" }) var recipients: [Recipient]
     @Query var gifts: [Gift]
     @Query(sort: \Event.name) var events: [Event]
@@ -28,7 +32,6 @@ struct GiftsList: View {
     @State var showingNewGiftWithoutRecipient = false
     @State var eventFilter: Event?
     @State var newGiftSortOrder = 0
-    @State var showingSettings = false
     @State var showingNewRecipient = false
     @State var newRecipientSortOrder = 0
     @State var editingRecipient: Recipient?
@@ -47,29 +50,29 @@ struct GiftsList: View {
         })) ?? []).sorted()
     }
     
+    private var biometryType: LABiometryType {
+        LAContext().biometryType
+    }
+    
     var body: some View {
         List {
             #if !os(watchOS)
-            Section {
-                HStack {
-                    ForEach(events) { event in
-                        Toggle(event.name ?? "", isOn: Binding(get: {
-                            eventFilter == event
-                        }, set: { newValue in
-                            if newValue {
-                                eventFilter = event
-                            } else {
-                                eventFilter = nil
-                            }
-                        }))
-                        .toggleStyle(.button)
-                        .buttonStyle(.borderedProminent)
-                        .buttonBorderShape(.capsule)
-                        .background(Color(uiColor: UIColor.secondarySystemGroupedBackground), in: Capsule())
+            if !isAssistiveAccessEnabled {
+                Section {
+                    Picker("Event Filter", selection: $eventFilter) {
+                        ForEach(events) { event in
+                            Text(event.name ?? "")
+                                .tag(event as Event?)
+                        }
+                        
+                        Text("All")
+                            .tag(nil as Event?)
                     }
+                    .pickerStyle(.segmented)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowBackground(Color.clear)
                 }
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                .listRowBackground(Color.clear)
+                .listSectionSpacing(.compact)
             }
             #endif
             
@@ -80,11 +83,9 @@ struct GiftsList: View {
                         GiftRow(gift: gift, showStatus: true)
                     }
 
-                    Button {
+                    Button("New Gift", systemImage: "plus") {
                         newGiftSortOrder = (gifts.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                         newGiftRecipient = recipient
-                    } label: {
-                        Label("New Gift", systemImage: "plus")
                     }
                     .foregroundColor(.accentColor)
                 } header: {
@@ -96,11 +97,9 @@ struct GiftsList: View {
                         GiftRow(gift: gift, showStatus: true)
                     }
                     
-                    Button {
+                    Button("New Gift", systemImage: "plus") {
                         newGiftSortOrder = (gifts.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                         newGiftRecipient = recipient
-                    } label: {
-                        Label("New Gift", systemImage: "plus")
                     }
                 } label: {
                     RecipientRow(recipient: recipient, sortingByBirthday: recipientSortBy == .nearestBirthday, filteredGifts: filterAndSort(recipient.gifts ?? []), recipientName: $recipientName, editingRecipient: $editingRecipient)
@@ -114,11 +113,9 @@ struct GiftsList: View {
                     GiftRow(gift: gift, showStatus: true)
                 }
                 
-                Button {
+                Button("New Gift", systemImage: "plus") {
                     newGiftSortOrder = (gifts.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                     showingNewGiftWithoutRecipient = true
-                } label: {
-                    Label("New Gift", systemImage: "plus")
                 }
                 #if os(watchOS)
                 .foregroundColor(.accentColor)
@@ -144,47 +141,56 @@ struct GiftsList: View {
         }
         .toolbar {
             #if os(iOS)
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    showingSettings = true
-                } label: {
-                    Image(systemName: "gear")
-                        .accessibilityLabel("Settings")
+            ToolbarItemGroup(placement: .secondaryAction) {
+                Toggle("Require \(biometryType == .faceID ? "Face ID" : "Touch ID")", systemImage: biometryType == .faceID ? "faceid" : "touchid", isOn: $requireAuthenication)
+                
+                Section {
+                    Button(includeGivenGifts ? "Hide Given Gifts" : "Show Given Gifts", systemImage: includeGivenGifts ? "eye.slash" : "eye") {
+                        includeGivenGifts.toggle()
+                    }
+                    Picker("Recipient Info", systemImage: "person", selection: $recipientSummaryInfoValue) {
+                        ForEach(RecipientSummaryInfo.allCases) { info in
+                            Text(info.title)
+                                .tag(info.rawValue)
+                        }
+                    }
+                    Picker("Sort By", systemImage: "arrow.up.arrow.down", selection: $recipientSortBy) {
+                        ForEach(RecipientSort.allCases) { sort in
+                            Text(sort.title)
+                                .tag(sort)
+                        }
+                    }
+                }
+                
+                if !isAssistiveAccessEnabled {
+                    Section {
+                        Link(destination: URL(string: "https://www.256arts.com/")!) {
+                            Label("Developer Website", systemImage: "safari")
+                        }
+                        Link(destination: URL(string: "https://www.256arts.com/joincommunity/")!) {
+                            Label("Join Community", systemImage: "bubble.left.and.bubble.right")
+                        }
+                        Link(destination: URL(string: "https://github.com/256Arts/Holiday-Gifts-List")!) {
+                            Label("Contribute on GitHub", systemImage: "chevron.left.forwardslash.chevron.right")
+                        }
+                    }
                 }
             }
             #endif
             
             #if os(watchOS)
             ToolbarItem(placement: .topBarLeading) {
-                Button {
+                Button("Add Recipient", systemImage: "person.badge.plus") {
                     showingNewRecipient = true
-                } label: {
-                    Image(systemName: "person.badge.plus")
-                        .accessibilityLabel("Add Recipient")
                 }
             }
             #else
             ToolbarItem(placement: .primaryAction) {
-                Button {
+                Button("Add Recipient", systemImage: "person.badge.plus") {
                     newRecipientSortOrder = (recipients.max(by: { $0.sortOrder ?? 0 < $1.sortOrder ?? 0 })?.sortOrder ?? 0) + 1
                     showingNewRecipient = true
-                } label: {
-                    Image(systemName: "person.badge.plus")
-                        .accessibilityLabel("Add Recipient")
                 }
                 .popoverTip(AddRecipientTip())
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu("Filter", systemImage: "line.3.horizontal.decrease") {
-                    Toggle("Include Given Gifts", isOn: $includeGivenGifts)
-                    Picker("Sort By", selection: $recipientSortBy) {
-                        ForEach(RecipientSort.allCases) { sort in
-                            Text(sort.title)
-                                .tag(sort)
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
             }
             #endif
         }
@@ -212,13 +218,6 @@ struct GiftsList: View {
                 RecipientView(recipient: recipient)
             }
         }
-        #if os(iOS)
-        .sheet(isPresented: $showingSettings) {
-            NavigationStack {
-                SettingsView()
-            }
-        }
-        #endif
         .onChange(of: recipientSortBy) { _, newValue in
             recipientSortByValue = newValue.rawValue
         }

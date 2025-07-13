@@ -62,7 +62,7 @@ struct RecipientView: View {
         .navigationTitle("Recipient")
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
+                Button("Save", systemImage: "checkmark") {
                     dismiss()
                 }
             }

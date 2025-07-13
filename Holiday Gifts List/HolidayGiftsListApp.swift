@@ -37,6 +37,7 @@ struct HolidayGiftsListApp: App {
                     }
                 }
             }
+            .tabBarMinimizeBehavior(.onScrollDown)
             .redacted(reason: biometrics.isAuthenticated ? [] : .privacy)
             .task {
                 // Configure and load your tips at app launch.

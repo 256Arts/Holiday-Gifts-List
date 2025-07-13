@@ -11,6 +11,7 @@ extension UserDefaults {
     
     enum Key {
         static let requireAuthenication = "requireAuthenication"
+        static let recipientSummaryInfo = "recipientSummaryInfo"
         static let recipientSortBy = "recipientSortBy"
         static let giftSortBy = "giftSortBy"
     }
