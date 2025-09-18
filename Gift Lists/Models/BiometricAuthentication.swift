@@ -40,3 +40,33 @@ final class BiometricAuthentication {
     }
     
 }
+
+extension LABiometryType {
+    
+    var name: String? {
+        switch self {
+        case .touchID:
+            "Touch ID"
+        case .faceID:
+            "Face ID"
+        case .opticID:
+            "Optic ID"
+        default:
+            nil
+        }
+    }
+    
+    var systemImageName: String? {
+        switch self {
+        case .touchID:
+            "touchid"
+        case .faceID:
+            "faceid"
+        case .opticID:
+            "opticid"
+        default:
+            nil
+        }
+    }
+    
+}

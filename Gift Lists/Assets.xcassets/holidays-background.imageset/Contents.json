@@ -1,17 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "holidays-background.jpg",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "holidays-background 2.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

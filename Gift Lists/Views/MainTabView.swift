@@ -62,9 +62,9 @@ struct MainTabView: View {
             }
             #endif
         }
-        #if os(iOS)
-        .tabBarMinimizeBehavior(.onScrollDown)
-        #elseif os(macOS)
+//        #if os(iOS)
+//        .tabBarMinimizeBehavior(.onScrollDown)
+        #if os(macOS)
         .tabViewStyle(.sidebarAdaptable)
         #endif
     }

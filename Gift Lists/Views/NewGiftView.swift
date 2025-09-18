@@ -31,7 +31,9 @@ struct NewGiftView: View {
                     #if os(iOS)
                     .textInputAutocapitalization(.words)
                     #endif
+                    #if !os(watchOS)
                     .font(.largeTitle)
+                    #endif
                 
                 TextField("Price", value: $price, formatter: currencyFormatter)
                     #if os(iOS)
@@ -75,7 +77,7 @@ struct NewGiftView: View {
                         Label {
                             Text(event.name ?? "")
                         } icon: {
-                            event.icon ?? Image("")
+                            event.specialCase?.icon ?? Image("")
                         }
                         .tag(event as Event?)
                     }

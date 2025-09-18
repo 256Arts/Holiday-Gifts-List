@@ -21,16 +21,16 @@ let previewContainer: ModelContainer = {
         container.mainContext.insert(event)
     }
     
-    let nick = Recipient(name: "Nicholas", sortOrder: 0, birthday: calendar.date(from: DateComponents(month: 3, day: 6)))
-    let noelle = Recipient(name: "Noelle", sortOrder: 1, birthday: calendar.date(from: DateComponents(month: 7, day: 14)))
     let chris = Recipient(name: "Chris", sortOrder: 2, birthday: calendar.date(from: DateComponents(month: 12, day: 25)))
-    for recip in [nick, noelle, chris] {
+    let noelle = Recipient(name: "Noelle", sortOrder: 1, birthday: calendar.date(from: DateComponents(month: 7, day: 14)))
+    let nick = Recipient(name: "Nicholas", sortOrder: 0, birthday: calendar.date(from: DateComponents(month: 3, day: 6)))
+    for recip in [chris, noelle, nick] {
         container.mainContext.insert(recip)
     }
     
     let gifts = [
-        Gift(title: "Yoga Mat", sortOrder: 0, price: 25, status: .wrapped, recipient: nick, event: birth),
-        Gift(title: "Blanket", sortOrder: 1, price: 25, status: .acquired, recipient: nick, event: birth),
+        Gift(title: "Door Mat", sortOrder: 0, price: 25, status: .wrapped, recipient: nick, event: birth),
+        Gift(title: "Throw Pillow", sortOrder: 1, price: 25, status: .acquired, recipient: nick, event: birth),
         Gift(title: "Picnic Set", sortOrder: 2, price: 75, status: .idea, recipient: nick, event: birth),
         Gift(title: "AirTags", sortOrder: 3, price: 100, status: .wrapped, recipient: noelle, event: birth),
         Gift(title: "Frying Pans", sortOrder: 4, price: 100, status: .inTransit, recipient: noelle, event: birth),
@@ -42,7 +42,7 @@ let previewContainer: ModelContainer = {
         Gift(title: "Blanket", sortOrder: 1, price: 25, status: .acquired, recipient: nick, event: holly),
         Gift(title: "Candle", sortOrder: 2, price: 25, status: .idea, recipient: nick, event: holly),
         Gift(title: "iPad", sortOrder: 3, price: 500, status: .wrapped, recipient: noelle, event: holly),
-        Gift(title: "Frying Pans", sortOrder: 4, price: 100, status: .inTransit, recipient: noelle, event: holly),
+        Gift(title: "Baking Pans", sortOrder: 4, price: 100, status: .inTransit, recipient: noelle, event: holly),
         Gift(title: "Winter Sweater", sortOrder: 5, price: 100, status: .idea, recipient: noelle, event: holly),
         Gift(title: "LEGO Death Star", sortOrder: 6, price: 1000, status: .inTransit, recipient: chris, event: holly),
         Gift(title: "Hot Chocolate", sortOrder: 7, price: 20, status: .idea, recipient: chris, event: holly)

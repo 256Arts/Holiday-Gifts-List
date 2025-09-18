@@ -13,6 +13,7 @@ extension UserDefaults {
         static let requireAuthenication = "requireAuthenication"
         static let recipientSummaryInfo = "recipientSummaryInfo"
         static let showEventWallpaper = "showEventWallpaper"
+        static let showHolidayCountdown = "showHolidayCountdown"
         static let recipientSortBy = "recipientSortBy"
         static let giftSortBy = "giftSortBy"
     }

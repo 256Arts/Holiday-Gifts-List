@@ -77,6 +77,7 @@ struct NewRecipientView: View {
                     modelContext.insert(recipient)
                     dismiss()
                 }
+                .disabled(name == Recipient.userName)
             }
         }
     }
