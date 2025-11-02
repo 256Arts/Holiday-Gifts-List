@@ -7,14 +7,20 @@
 
 import SwiftUI
 import SwiftData
+import StoreKit
 
 struct NewGiftView: View {
     
     let recipient: Recipient?
     let sortOrder: Int
     
+    @AppStorage(UserDefaults.Key.giftsCreatedCount) private var giftsCreatedCount: Int = 0
+    
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) var dismiss
+    #if !os(watchOS)
+    @Environment(\.requestReview) private var requestReview
+    #endif
     
     @Query(sort: \Event.name) var events: [Event]
     
@@ -99,6 +105,12 @@ struct NewGiftView: View {
                 Button("Add", systemImage: "checkmark") {
                     let gift = Gift(title: title, sortOrder: sortOrder, price: price, notes: notes, status: status, recipient: recipient, event: event)
                     modelContext.insert(gift)
+                    giftsCreatedCount += 1
+                    #if !os(watchOS)
+                    if [5, 20, 50, 100].contains(giftsCreatedCount) {
+                        requestReview()
+                    }
+                    #endif
                     dismiss()
                 }
             }

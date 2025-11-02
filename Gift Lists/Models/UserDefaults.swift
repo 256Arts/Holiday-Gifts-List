@@ -10,6 +10,8 @@ import Foundation
 extension UserDefaults {
     
     enum Key {
+        static let giftsCreatedCount = "giftsCreatedCount"
+        
         static let requireAuthenication = "requireAuthenication"
         static let recipientSummaryInfo = "recipientSummaryInfo"
         static let showEventWallpaper = "showEventWallpaper"

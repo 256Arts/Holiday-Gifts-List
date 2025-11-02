@@ -11,9 +11,15 @@ import SwiftData
 struct ShoppingList: View {
     
     @Query private var gifts: [Gift]
+    @Query(sort: \Event.name) private var events: [Event]
+    
+    @State private var eventFilter: Event? = nil
+    @State private var showingManageEvents = false
+
+    @Environment(\.modelContext) private var modelContext
     
     private var giftIdeas: [Gift] {
-        gifts.filter({ $0.status == .idea && $0.recipient?.name != "<Me>" }).sorted()
+        gifts.filter({ $0.status == .idea && $0.recipient?.name != "<Me>" && (eventFilter == nil || $0.event == eventFilter) }).sorted()
     }
     
     var body: some View {
@@ -26,11 +32,40 @@ struct ShoppingList: View {
                 }
             }
         }
-        .navigationTitle("Shopping List")
+        .navigationTitle(title)
+        #if !os(macOS)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarTitleMenu {
+            Picker("Event Filter", selection: $eventFilter) {
+                ForEach(events) { event in
+                    Text(event.name ?? "").tag(event as Event?)
+                }
+                Text("All").tag(nil as Event?)
+            }
+            
+            Button("Manage Events", systemImage: "ellipsis") {
+                showingManageEvents = true
+            }
+        }
+        #endif
         .navigationDestination(for: Gift.self) { gift in
             GiftView(gift: gift)
         }
+        .sheet(isPresented: $showingManageEvents) {
+            NavigationStack {
+                ManageEventsView()
+            }
+        }
     }
+    
+    private var title: String {
+        if let name = eventFilter?.name {
+            "\(name) Shopping"
+        } else {
+            "All Shopping"
+        }
+    }
+    
 }
 
 #Preview {

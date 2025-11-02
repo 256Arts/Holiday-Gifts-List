@@ -49,6 +49,7 @@
 				"Preview Content/Preview Assets.xcassets",
 				Views/ContactPickerButton.swift,
 				Views/MainTabView.swift,
+				Views/ManageEventsView.swift,
 				Views/ShoppingList.swift,
 				Views/ShoppingRow.swift,
 			);

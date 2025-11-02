@@ -34,6 +34,7 @@ struct GiftsList: View {
     @State var recipientSortByPreference: RecipientSort
     @State var includeGivenGifts = false
     @State var showingNewGiftWithoutRecipient = false
+    @State private var showingManageEvents = false
     #if os(macOS)
     let eventFilter: Event?
     #else
@@ -145,6 +146,9 @@ struct GiftsList: View {
                 Text("All")
                     .tag(nil as Event?)
             }
+            Button("Manage Events", systemImage: "ellipsis") {
+                showingManageEvents = true
+            }
         }
         #endif
         .toolbar {
@@ -202,6 +206,13 @@ struct GiftsList: View {
                 RecipientView(recipient: recipient)
             }
         }
+        #if !os(watchOS)
+        .sheet(isPresented: $showingManageEvents) {
+            NavigationStack {
+                ManageEventsView()
+            }
+        }
+        #endif
         .onChange(of: recipientSortByPreference) { _, newValue in
             recipientSortByValue = newValue.rawValue
         }

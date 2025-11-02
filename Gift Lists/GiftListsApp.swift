@@ -22,6 +22,7 @@ struct GiftListsApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
     @State private var biometrics = BiometricAuthentication()
+    @State private var showingEvent = false
     
     private var biometryType: LABiometryType {
         LAContext().biometryType
@@ -37,6 +38,16 @@ struct GiftListsApp: App {
                         .displayFrequency(.immediate),
                         .datastoreLocation(.applicationDefault)
                     ])
+                }
+                .alert("Event Intro", isPresented: $showingEvent) {
+                    Button("OK") { }
+                } message: {
+                    Text("Now let's celebrate by adding some gifts to the list and trying out the new features!")
+                }
+                .onOpenURL { url in
+                    if url.path().contains("giftlists/appstoreevent") {
+                        showingEvent = true
+                    }
                 }
         }
         #if os(macOS)
